@@ -1,11 +1,14 @@
 package com.isagiongo.aluraforum.controllers;
 
+import com.isagiongo.aluraforum.dtos.AtualizacaoTopicoFormDTO;
+import com.isagiongo.aluraforum.dtos.DetalhesTopicoDTO;
 import com.isagiongo.aluraforum.dtos.TopicoDTO;
 import com.isagiongo.aluraforum.dtos.TopicoFormDTO;
 import com.isagiongo.aluraforum.models.Topico;
 import com.isagiongo.aluraforum.repositories.CursoRepository;
 import com.isagiongo.aluraforum.repositories.TopicoRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -43,6 +46,19 @@ public class TopicosController {
 
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(uri).body(new TopicoDTO(topico));
+    }
+
+    @GetMapping("/{id}")
+    public DetalhesTopicoDTO buscaPorId(@PathVariable Long id) {
+        Topico topico = topicoRepository.getOne(id);
+        return new DetalhesTopicoDTO(topico);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<TopicoDTO> atualiza(@PathVariable Long id, @Valid @RequestBody AtualizacaoTopicoFormDTO topicoForm) {
+        Topico topico = topicoForm.atualizar(id, topicoRepository);
+        return ResponseEntity.ok(new TopicoDTO(topico));
     }
 
 }
