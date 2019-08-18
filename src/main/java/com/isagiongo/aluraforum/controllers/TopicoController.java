@@ -7,6 +7,8 @@ import com.isagiongo.aluraforum.dtos.TopicoFormDTO;
 import com.isagiongo.aluraforum.models.Topico;
 import com.isagiongo.aluraforum.repositories.CursoRepository;
 import com.isagiongo.aluraforum.repositories.TopicoRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,6 +36,7 @@ public class TopicoController {
     }
 
     @GetMapping
+    @Cacheable(value = "listaDeTopicos")
     public Page<TopicoDTO> busca(@RequestParam(required = false) String nomeCurso,
                                  @PageableDefault(sort = "dataCriacao", direction = Sort.Direction.DESC) Pageable paginacao) {
         if(nomeCurso == null) {
@@ -46,6 +49,7 @@ public class TopicoController {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public ResponseEntity<TopicoDTO> cadastra(@Valid @RequestBody TopicoFormDTO form, UriComponentsBuilder uriBuilder){
         Topico topico = form.converter(cursoRepository);
         topicoRepository.save(topico);
@@ -65,6 +69,7 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public ResponseEntity<TopicoDTO> atualiza(@PathVariable Long id, @Valid @RequestBody AtualizacaoTopicoFormDTO topicoForm) {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
         if(optionalTopico.isPresent()) {
@@ -76,6 +81,7 @@ public class TopicoController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public ResponseEntity remove(@PathVariable Long id) {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
         if(optionalTopico.isPresent()) {
