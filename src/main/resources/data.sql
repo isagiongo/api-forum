@@ -1,6 +1,7 @@
 INSERT INTO USUARIO (nome, email, senha) VALUES ('Isadora Giongo', 'isa@gmail.com', '123456');
-INSERT INTO USUARIO (nome, email, senha) VALUES ('Veronica Torres', 'veronica@gmail.com', '123456');
-INSERT INTO USUARIO (nome, email, senha) VALUES ('Joana Maranhão', 'joana@gmail.com', '123456');
+INSERT INTO USUARIO (nome, email, senha) VALUES ('Veronica Torres', 'veronica@gmail.com', '$2a$10$sFKmbxbG4ryhwPNx/l3pgOJSt.fW1z6YcUnuE2X8APA/Z3NI/oSpq');
+INSERT INTO USUARIO (nome, email, senha) VALUES ('Joana Maranhão', 'joana@gmail.com', '$2a$10$eBs3HWRky0MFCB9uQzmpHOShbOyapH/8SUXC4nyia0NxAlnKAyMMi
+');
 
 INSERT INTO CURSO (nome, categoria) VALUES ('Java Básico', 'Desenvolvimento BackEnd');
 INSERT INTO CURSO (nome, categoria) VALUES ('Angular', 'Desenvolvimento FrontEnd');
